@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Songless IT - Indovina la Canzone</title>
+  <meta name="description" content="Riconosci la canzone da un frammento di frazioni di secondo? Il gioco quotidiano musicale a tentativi in stile Songless ed Heardle." />
+  <meta name="theme-color" content="#121316" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Songless IT - Indovina la Canzone" />
+  <meta property="og:description" content="Metti alla prova il tuo orecchio musicale! Indovina la canzone in 6 tentativi ascoltando l'intro." />
+  <meta property="og:type" content="website" />
+
+  <!-- Stylesheets & Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2322c55e'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand" id="brandBtn">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <div class="brand-name">
+            Songless <span class="brand-badge">IT</span>
+          </div>
+          <div class="brand-subtitle">Indovina la Canzone</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Volume Toggle Button -->
+        <button class="icon-btn" id="volumeBtn" title="Volume / Mute" aria-label="Volume">
+          <svg id="volumeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+        </button>
+
+        <!-- Stats Button -->
+        <button class="icon-btn" id="statsBtn" title="Statistiche" aria-label="Statistiche">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 20V10"></path>
+            <path d="M12 20V4"></path>
+            <path d="M6 20v-6"></path>
+          </svg>
+        </button>
+
+        <!-- How to play Button -->
+        <button class="icon-btn" id="helpBtn" title="Come giocare" aria-label="Come giocare">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Game Mode Selector -->
+    <nav class="mode-selector">
+      <button class="mode-tab active" id="tabDaily" data-mode="daily">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>Canzone del Giorno</span>
+      </button>
+      <button class="mode-tab" id="tabUnlimited" data-mode="unlimited">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z"></path>
+        </svg>
+        <span>Modalità Libera</span>
+      </button>
+      <button class="mode-tab" id="tabArtist" data-mode="artist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+        <span>Per Artista</span>
+      </button>
+    </nav>
+
+    <!-- Category Filter Pills (Visible when in Unlimited Mode) -->
+    <div class="category-filter" id="categoryFilter">
+      <button class="cat-pill active" data-category="all">Tutte le Hit</button>
+      <button class="cat-pill" data-category="hiphop">Hip-Hop & Rap 🎤</button>
+      <button class="cat-pill" data-category="pop">Top Pop ✨</button>
+      <button class="cat-pill" data-category="rock">Rock Legends 🎸</button>
+      <button class="cat-pill" data-category="retro">Anni '80 & '90 📼</button>
+    </div>
+
+    <!-- Origin Switch: ITA vs Non-ITA vs Tutte (Visible in Unlimited Mode) -->
+    <div class="origin-switch-container" id="originSwitchContainer">
+      <div class="origin-switch" id="originSwitch">
+        <button class="origin-tab active" data-origin="all">🌐 Tutte</button>
+        <button class="origin-tab" data-origin="ita">🇮🇹 Solo ITA</button>
+        <button class="origin-tab" data-origin="intl">🌍 Non-ITA</button>
+      </div>
+    </div>
+
+    <!-- Artist Mode Selector Drawer (Visible when selecting an artist in Artist Mode) -->
+    <section class="artist-mode-container" id="artistModeContainer">
+      <div class="artist-mode-header">
+        <div class="artist-mode-title">
+          <span>🎤 Scegli un artista per iniziare la sfida</span>
+        </div>
+        <div class="artist-search-wrapper">
+          <input
+            type="text"
+            id="artistSearchInput"
+            class="artist-search-input"
+            placeholder="Cerca qualsiasi cantante o gruppo (es. Fred De Palma, Queen, Vasco...)"
+            autocomplete="off"
+          />
+          <button class="artist-search-go-btn" id="artistSearchGoBtn">Cerca Artista</button>
+          <!-- Dropdown visivo con copertine per scegliere l'artista esatto senza omonimie -->
+          <div class="artist-search-dropdown" id="artistSearchDropdown"></div>
+        </div>
+      </div>
+      <div class="artist-quick-label">Artisti in evidenza:</div>
+      <div class="artist-pill-grid" id="artistPillGrid">
+        <!-- Generato dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- Active Artist Challenge Banner (Visible during an active game in Artist Mode) -->
+    <div class="artist-active-banner" id="artistActiveBanner" style="display: none;">
+      <div class="artist-active-info">
+        <img class="artist-active-avatar" id="artistActiveAvatar" src="" alt="" style="display: none;" />
+        <div class="artist-active-text">
+          <span class="artist-active-badge">SFIDA ARTISTA</span>
+          <span class="artist-active-name" id="artistActiveName">Artista</span>
+        </div>
+      </div>
+      <div class="artist-active-actions">
+        <button class="artist-banner-btn" id="artistChangeBtn" title="Scegli un altro cantante o gruppo">
+          👤 Cambia Artista
+        </button>
+        <button class="artist-banner-btn" id="artistNextSongTopBtn" title="Estrai un'altra canzone di questo artista">
+          🎲 Altra Canzone
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Game Section -->
+    <main class="main-game">
+      
+      <!-- 6 Guess Rows Board -->
+      <section class="guess-board" id="guessBoard" aria-label="Tentativi">
+        <!-- Inseriti dinamicamente via JavaScript -->
+      </section>
+
+      <!-- Player & Timeline Card -->
+      <section class="player-container">
+        <!-- Segmented Timeline Track -->
+        <div class="timeline-wrapper">
+          <div class="timeline-track" id="timelineTrack">
+            <div class="timeline-fill" id="timelineFill"></div>
+            <!-- Segmenti generati dinamicamente -->
+          </div>
+          <div class="timeline-labels">
+            <span id="timeCurrent">0.0s</span>
+            <span class="time-unlocked" id="timeUnlocked">0.5s sbloccati</span>
+            <span id="timeTotal">16.0s</span>
+          </div>
+        </div>
+
+        <!-- Center Controls -->
+        <div class="player-controls">
+          <div class="waveform-bars" id="waveformLeft">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+
+          <button class="play-btn-large" id="playBtn" aria-label="Ascolta frammento" title="Riproduci frammento audio">
+            <!-- Play Icon -->
+            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+            <!-- Pause Icon -->
+            <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+
+          <div class="waveform-bars" id="waveformRight">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search & Autocomplete Area -->
+      <section class="search-container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Cerca artista o titolo canzone..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="search-clear-btn" id="searchClearBtn" title="Cancella ricerca" aria-label="Cancella">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Floating Autocomplete Dropdown -->
+        <div class="search-dropdown" id="searchDropdown" role="listbox">
+          <!-- Popolato dinamicamente -->
+        </div>
+      </section>
+
+      <!-- Action Bar: Skip & Submit -->
+      <section class="action-bar">
+        <button class="btn btn-skip" id="skipBtn">
+          <span>Salta (+1.0s)</span>
+        </button>
+        <button class="btn btn-submit" id="submitBtn" disabled>
+          <span>Invia</span>
+        </button>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>Songless IT - Ispirato a Songless e Heardle • Anteprime audio ufficiali</span>
+    </footer>
+  </div>
+
+  <!-- ========================================================================
+       MODALI
+       ======================================================================== -->
+
+  <!-- 1. Modal Fine Partita (Vittoria / Sconfitta) -->
+  <div class="modal-overlay" id="modalGameOver">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="gameOverTitle">Risultato Partita</div>
+        <button class="modal-close-btn" data-close="modalGameOver" aria-label="Chiudi">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="game-over-banner">
+        <h2 class="game-over-title" id="gameOverHeading">Congratulazioni! 🎉</h2>
+        <p class="game-over-score" id="gameOverSubtitle">Hai indovinato al 1° tentativo su 6!</p>
+      </div>
+
+      <!-- Card Canzone Rivelata -->
+      <div class="song-reveal-card" id="songRevealCard">
+        <img src="" alt="Album Cover" class="song-reveal-cover" id="revealCover" />
+        <div class="song-reveal-meta">
+          <div class="song-reveal-track" id="revealTrack">Titolo Canzone</div>
+          <div class="song-reveal-artist" id="revealArtist">Nome Artista</div>
+          <div class="song-reveal-album" id="revealAlbum">Album • Anno</div>
+        </div>
+      </div>
+
+      <!-- Player Completo Anteprima (30s) -->
+      <audio id="fullAudioPlayer" controls class="reveal-player" preload="none"></audio>
+
+      <!-- Pulsanti Azione -->
+      <div class="modal-actions">
+        <button class="btn btn-share" id="shareResultBtn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span>Condividi Risultato</span>
+        </button>
+
+        <button class="btn btn-next-random" id="nextRandomBtn" style="display: none;">
+          <span>Prossima Canzone Casuale 🎲</span>
+        </button>
+
+        <button class="btn btn-next-random" id="nextArtistSongBtn" style="display: none; background: var(--accent-purple);">
+          <span>Altra Canzone di Questo Artista 🎲</span>
+        </button>
+
+        <button class="btn btn-skip" id="changeArtistModalBtn" style="display: none;">
+          <span>Scegli un Altro Artista 👤</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal Statistiche -->
+  <div class="modal-overlay" id="modalStats">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 20V10"></path>
+            <path d="M12 20V4"></path>
+            <path d="M6 20v-6"></path>
+          </svg>
+          <span>Statistiche</span>
+        </div>
+        <button class="modal-close-btn" data-close="modalStats" aria-label="Chiudi">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Stat Grid -->
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="statPlayed">0</div>
+          <div class="stat-label">Giocate</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="statWinRate">0%</div>
+          <div class="stat-label">Vittorie</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="statStreak">0</div>
+          <div class="stat-label">Serie Attuale</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="statMaxStreak">0</div>
+          <div class="stat-label">Miglior Serie</div>
+        </div>
+      </div>
+
+      <!-- Guess Distribution Chart -->
+      <div class="dist-chart-section">
+        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">
+          Distribuzione Tentativi
+        </h3>
+        <div class="dist-chart" id="distChart">
+          <!-- Barre generate dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal Come Giocare -->
+  <div class="modal-overlay" id="modalHelp">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>Come Giocare</span>
+        </div>
+        <button class="modal-close-btn" data-close="modalHelp" aria-label="Chiudi">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="instructions-list">
+        <div class="instruction-step">
+          <div class="step-badge">1</div>
+          <div>Ascolta il frammento iniziale della canzone (si parte da appena <strong>0.5 secondi</strong>!).</div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-badge">2</div>
+          <div>Cerca il titolo o l'artista nella barra di ricerca e seleziona il brano desiderato.</div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-badge">3</div>
+          <div>Se non conosci la canzone o hai bisogno di ascoltare di più, premi <strong>"Salta"</strong> per sbloccare secondi aggiuntivi.</div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-badge">4</div>
+          <div>Hai a disposizione <strong>6 tentativi</strong> per indovinare il brano. Riuscirai a riconoscerlo al primo ascolto?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container per Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript Entry Point -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

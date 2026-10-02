@@ -1,0 +1,1162 @@
+/* ==========================================================================
+   SONGLESS - Component Styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Guess Board & Slots
+   -------------------------------------------------------------------------- */
+.guess-board {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.guess-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.guess-row.empty {
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-muted);
+}
+
+.guess-row.empty .guess-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.guess-row.current-target {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.06);
+}
+
+.guess-row.skipped {
+  background: rgba(75, 85, 99, 0.25);
+  border-color: rgba(107, 114, 128, 0.5);
+  color: #9ca3af;
+}
+
+.guess-row.skipped .guess-badge {
+  background: #4b5563;
+  color: #f3f4f6;
+}
+
+.guess-row.incorrect {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+}
+
+.guess-row.incorrect .guess-badge {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+.guess-row.correct {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.6);
+  color: #86efac;
+  box-shadow: 0 0 16px var(--accent-green-glow);
+}
+
+.guess-row.correct .guess-badge {
+  background: var(--accent-green);
+  color: #052e16;
+}
+
+.guess-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guess-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guess-artist {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-left: 4px;
+}
+
+.guess-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.guess-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Segmented Audio Timeline & Player
+   -------------------------------------------------------------------------- */
+.player-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timeline-track {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  background: #171920;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.timeline-segment {
+  position: relative;
+  height: 100%;
+  border-right: 2px solid var(--bg-card);
+  background: rgba(255, 255, 255, 0.05);
+  transition: background var(--transition-normal);
+}
+
+.timeline-segment:last-child {
+  border-right: none;
+}
+
+.timeline-segment.unlocked {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.timeline-segment.current-step {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+/* Progress fill element */
+.timeline-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #10b981, #22c55e);
+  pointer-events: none;
+  z-index: 2;
+  transition: width 0.05s linear;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.time-unlocked {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+/* Audio Controls & Playhead */
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  position: relative;
+}
+
+.play-btn-large {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: var(--accent-green);
+  color: #092011;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(34, 197, 94, 0.35);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.play-btn-large:hover:not(:disabled) {
+  transform: scale(1.06);
+  background: #25df6b;
+  box-shadow: 0 6px 22px rgba(34, 197, 94, 0.5);
+}
+
+.play-btn-large:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.play-btn-large:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+}
+
+.play-btn-large svg {
+  width: 28px;
+  height: 28px;
+  margin-left: 3px; /* visual alignment */
+}
+
+.play-btn-large.playing svg {
+  margin-left: 0;
+}
+
+/* Audio waveform animation */
+.waveform-bars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 24px;
+}
+
+.waveform-bar {
+  width: 3px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  transition: height 0.15s ease, background 0.15s ease;
+}
+
+.playing .waveform-bar {
+  background: var(--accent-green);
+  animation: waveAnim 0.8s ease-in-out infinite alternate;
+}
+
+.playing .waveform-bar:nth-child(2) { animation-delay: 0.15s; }
+.playing .waveform-bar:nth-child(3) { animation-delay: 0.3s; }
+.playing .waveform-bar:nth-child(4) { animation-delay: 0.45s; }
+.playing .waveform-bar:nth-child(5) { animation-delay: 0.2s; }
+
+@keyframes waveAnim {
+  0% { height: 6px; }
+  100% { height: 24px; }
+}
+
+/* --------------------------------------------------------------------------
+   3. Search Bar & Autocomplete
+   -------------------------------------------------------------------------- */
+.search-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.search-icon-left {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 44px 0 42px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.search-input:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+  background: #1a1e27;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: none;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.search-clear-btn:hover {
+  color: var(--text-primary);
+}
+
+.search-clear-btn.visible {
+  display: flex;
+}
+
+/* Dropdown list */
+.search-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  z-index: 50;
+  display: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+}
+
+.search-dropdown.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.search-item:last-child {
+  border-bottom: none;
+}
+
+.search-item:hover,
+.search-item.highlighted {
+  background: var(--bg-card-hover);
+}
+
+.search-item-cover {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: #2a2e39;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.search-item-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search-item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-item-artist {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-empty-state {
+  padding: 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Action Buttons (Skip & Submit)
+   -------------------------------------------------------------------------- */
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  user-select: none;
+  text-decoration: none;
+}
+
+.btn-skip {
+  flex: 1;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-skip:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.btn-skip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-submit {
+  flex: 1.3;
+  background: var(--accent-green);
+  color: #062b11;
+  box-shadow: 0 2px 10px rgba(34, 197, 94, 0.25);
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: #2ee672;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.45);
+}
+
+.btn-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. Modals & Overlays
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+/* Game Over Result Card */
+.game-over-banner {
+  text-align: center;
+  padding: 12px 0 6px 0;
+}
+
+.game-over-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.game-over-title.win {
+  color: var(--accent-green);
+}
+
+.game-over-title.loss {
+  color: var(--accent-red);
+}
+
+.game-over-score {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.song-reveal-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-input);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.song-reveal-cover {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+
+.song-reveal-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.song-reveal-track {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.song-reveal-artist {
+  font-size: 0.9rem;
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.song-reveal-album {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Full Preview Audio Player */
+.reveal-player {
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-top: 4px;
+}
+
+/* Social Share & Next song buttons */
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-share {
+  background: var(--accent-green);
+  color: #06260f;
+  font-weight: 700;
+  box-shadow: 0 4px 14px var(--accent-green-glow);
+}
+
+.btn-share:hover {
+  background: #2ee672;
+}
+
+.btn-next-random {
+  background: var(--accent-blue);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn-next-random:hover {
+  background: #2563eb;
+}
+
+/* Statistics Grid */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+
+.stat-item {
+  background: var(--bg-input);
+  border-radius: var(--radius-md);
+  padding: 12px 6px;
+  border: 1px solid var(--border-subtle);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+/* Guess Distribution Chart */
+.dist-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.dist-num {
+  width: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.dist-bar-wrapper {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  height: 22px;
+  overflow: hidden;
+}
+
+.dist-bar {
+  height: 100%;
+  background: #374151;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  min-width: 24px;
+  transition: width 0.5s ease;
+}
+
+.dist-bar.highlight {
+  background: var(--accent-green);
+  color: #062b11;
+}
+
+/* --------------------------------------------------------------------------
+   6. How to Play Instructions
+   -------------------------------------------------------------------------- */
+.instructions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.instruction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.step-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--accent-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Toast Notifications
+   -------------------------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.toast {
+  background: #22252e;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.25s ease;
+  pointer-events: auto;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   8. Modalità per Artista (Artist Mode)
+   -------------------------------------------------------------------------- */
+.artist-mode-container {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 8px;
+}
+
+.artist-mode-container.visible {
+  display: flex;
+}
+
+.artist-mode-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.artist-mode-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.artist-search-wrapper {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.artist-search-input {
+  flex: 1;
+  height: 42px;
+  padding: 0 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.artist-search-input:focus {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+}
+
+.artist-search-go-btn {
+  height: 42px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background: var(--accent-purple);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.artist-search-go-btn:hover {
+  background: #9333ea;
+  transform: translateY(-1px);
+}
+
+/* Dropdown visivo suggerimenti artisti con copertine */
+.artist-search-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  max-height: 380px;
+  overflow-y: auto;
+  z-index: 70;
+  backdrop-filter: blur(14px);
+  padding: 6px;
+  scrollbar-width: thin;
+}
+
+.artist-search-dropdown.open {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.artist-card-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.artist-card-item:hover {
+  background: rgba(168, 85, 247, 0.14);
+  border-color: rgba(168, 85, 247, 0.35);
+  transform: translateX(2px);
+}
+
+.artist-card-cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  background: #1c1f26;
+}
+
+.artist-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+}
+
+.artist-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.artist-card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.artist-card-genre {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.artist-card-sample {
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.artist-card-sample em {
+  font-style: normal;
+  color: var(--text-secondary);
+}
+
+.artist-card-action {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-purple);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.artist-card-item:hover .artist-card-action {
+  background: #9333ea;
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
+}
+
+.artist-search-loading,
+.artist-search-empty {
+  padding: 18px 12px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artist-quick-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.artist-pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.artist-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.artist-pill:hover {
+  background: var(--bg-card-hover);
+  color: #fff;
+  border-color: rgba(168, 85, 247, 0.5);
+  transform: translateY(-1px);
+}
+
+.artist-pill.active {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+}
+
+.artist-pill-genre {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Active Artist Banner */
+.artist-active-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(59, 130, 246, 0.12));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.15);
+  margin-bottom: 8px;
+}
+
+.artist-active-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.artist-active-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-purple);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  flex-shrink: 0;
+  background: #1c1f26;
+}
+
+.artist-active-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(168, 85, 247, 0.3);
+  color: #d8b4fe;
+  flex-shrink: 0;
+}
+
+.artist-active-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-active-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.artist-banner-btn {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.artist-banner-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.3);
+}

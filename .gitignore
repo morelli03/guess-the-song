@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Archives
+*.7z
+*.zip
+*.tar.gz
+
+# Environment & Dependencies
+.env
+.env.local
+node_modules/
+
+# Vercel
+.vercel/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
